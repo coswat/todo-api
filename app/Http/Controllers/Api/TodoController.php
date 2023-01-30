@@ -36,7 +36,16 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+         $data = Todo::create([
+            'user_id' => Auth::user()->id,
+            'title' => $request->title,
+            'description' => $request->description
+            ]);
+            return new TodoResource($data);
+        } catch (\Throwable $e) {
+          return $this->internalError($e->getMessage());
+        }
     }
 
     /**
