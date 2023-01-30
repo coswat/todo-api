@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
    use HttpResponse;
    
-   public function index(Request $request)
+   public function index(LoginRequest $request)
    {
      try {
        $credentials = $request->only(['email','password']);

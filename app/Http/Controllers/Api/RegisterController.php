@@ -10,7 +10,7 @@ class RegisterController extends Controller
 {
    use HttpResponse;
    
-   public function index(Request $request)
+   public function index(RegisterRequest $request)
    {
      try {
    //    $request->validated($request->only(['email','name','password','confirm_password']));

@@ -8,6 +8,7 @@ use App\Models\Todo;
 use App\Http\Traits\HttpResponse;
 use Auth;
 use App\Http\Resources\TodoResource;
+use App\Http\Requests\TodoRequest;
 class TodoController extends Controller
 {
   use HttpResponse;
@@ -34,7 +35,7 @@ class TodoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TodoRequest $request)
     {
         try {
          $data = Todo::create([
