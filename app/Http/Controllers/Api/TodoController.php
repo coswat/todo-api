@@ -95,6 +95,7 @@ class TodoController extends Controller
     public function destroy(Todo $todo)
     {
         try {
+          return $this->notAuthorized($todo) ? $this->notAuthorized($todo) : $todo->delete();
           
         } catch (\Throwable $e) {
           return $this->internalError($e->getMessage());
