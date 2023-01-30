@@ -16,11 +16,10 @@ use App\Http\Controllers\Api\TodoController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::post('/register',[RegisterController::class,'index']);
 Route::post('/login',[LoginController::class,'index'])->name('login');
+
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
   Route::resource('/todo', TodoController::class);
