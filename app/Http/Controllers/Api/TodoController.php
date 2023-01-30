@@ -58,27 +58,11 @@ class TodoController extends Controller
     {
         try {
           
-          if(Auth::user()->id !== $todo->user_id)
-          {
-            return $this->error('','dont have access to other post');
-          }
-          
-          return new TodoResource($todo);
+          return $this->notAuthorized($todo) ? $this->notAuthorized($todo) : new TodoResource($todo);
           
         } catch (\Throwable $e) {
           return $this->internalError($e->getMessage());
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -88,9 +72,18 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, Todo $todo)
+    {  
+      try {
+      if(Auth::user()->id !== $todo->user_id)
+      {
+        return $this->error('','dont have access to other posts');
+      }
+         $todo->update($request->all());
+         return new TodoResource($todo);
+      } catch (\Throwable $e) {
+        return $this->internalError($e->getMessage());
+      }
     }
 
     /**
@@ -99,8 +92,20 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Todo $todo)
     {
-        //
+        try {
+          
+        } catch (\Throwable $e) {
+          return $this->internalError($e->getMessage());
+        }
+    }
+    
+    private function notAuthorized($todo)
+    {
+      if(Auth::user()->id !== $todo->user_id)
+      {
+        return $this->error('','dont have access to other posts');
+      }
     }
 }
