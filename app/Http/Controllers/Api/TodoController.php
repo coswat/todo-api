@@ -54,9 +54,20 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Todo $todo)
     {
-        //
+        try {
+          
+          if(Auth::user()->id !== $todo->user_id)
+          {
+            return $this->error('','dont have access to other post');
+          }
+          
+          return new TodoResource($todo);
+          
+        } catch (\Throwable $e) {
+          return $this->internalError($e->getMessage());
+        }
     }
 
     /**
