@@ -15,7 +15,7 @@ php artisan serve
 ## Database Setup <br>
 ```
 mysql;
-create database laravel-todol;
+create database laravel-todo;
 exit;
 ```
 
