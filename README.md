@@ -1,5 +1,5 @@
-## Todo Api With Authentication
-#### simple todo api with authentication using Laravel framework
+### Todo Api With Authentication
+ simple todo api with authentication using Laravel framework, if you find any issues or bugs you can report to us
 ## Usage <br>
 Setup the repository <br>
 ```
