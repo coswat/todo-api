@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Todo;
-use App\Http\Traits\HttpResponse;
-use Auth;
-use App\Http\Resources\TodoResource;
 use App\Http\Requests\TodoRequest;
+use App\Http\Resources\TodoResource;
+use App\Http\Traits\HttpResponse;
+use App\Models\Todo;
+use Auth;
+use Illuminate\Http\Request;
+
 class TodoController extends Controller
 {
-  use HttpResponse;
+    use HttpResponse;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,14 +21,13 @@ class TodoController extends Controller
      */
     public function index()
     {
-      try {
-          return TodoResource::collection(
-          Todo::where('user_id',Auth::user()->id)->get()
-          );
-      } catch (\Throwable $e) {
-        return $this->internalError($e->getMessage());
-      }
-
+        try {
+            return TodoResource::collection(
+                Todo::where('user_id', Auth::user()->id)->get()
+            );
+        } catch (\Throwable $e) {
+            return $this->internalError($e->getMessage());
+        }
     }
 
     /**
@@ -38,14 +39,15 @@ class TodoController extends Controller
     public function store(TodoRequest $request)
     {
         try {
-         $data = Todo::create([
-            'user_id' => Auth::user()->id,
-            'title' => $request->title,
-            'description' => $request->description
+            $data = Todo::create([
+                'user_id' => Auth::user()->id,
+                'title' => $request->title,
+                'description' => $request->description,
             ]);
+
             return new TodoResource($data);
         } catch (\Throwable $e) {
-          return $this->internalError($e->getMessage());
+            return $this->internalError($e->getMessage());
         }
     }
 
@@ -58,11 +60,9 @@ class TodoController extends Controller
     public function show(Todo $todo)
     {
         try {
-          
-          return $this->notAuthorized($todo) ? $this->notAuthorized($todo) : new TodoResource($todo);
-          
+            return $this->notAuthorized($todo) ? $this->notAuthorized($todo) : new TodoResource($todo);
         } catch (\Throwable $e) {
-          return $this->internalError($e->getMessage());
+            return $this->internalError($e->getMessage());
         }
     }
 
@@ -74,17 +74,17 @@ class TodoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Todo $todo)
-    {  
-      try {
-      if(Auth::user()->id !== $todo->user_id)
-      {
-        return $this->error('','dont have access to other posts');
-      }
-         $todo->update($request->all());
-         return new TodoResource($todo);
-      } catch (\Throwable $e) {
-        return $this->internalError($e->getMessage());
-      }
+    {
+        try {
+            if (Auth::user()->id !== $todo->user_id) {
+                return $this->error('', 'dont have access to other posts');
+            }
+            $todo->update($request->all());
+
+            return new TodoResource($todo);
+        } catch (\Throwable $e) {
+            return $this->internalError($e->getMessage());
+        }
     }
 
     /**
@@ -96,18 +96,16 @@ class TodoController extends Controller
     public function destroy(Todo $todo)
     {
         try {
-          return $this->notAuthorized($todo) ? $this->notAuthorized($todo) : $todo->delete();
-          
+            return $this->notAuthorized($todo) ? $this->notAuthorized($todo) : $todo->delete();
         } catch (\Throwable $e) {
-          return $this->internalError($e->getMessage());
+            return $this->internalError($e->getMessage());
         }
     }
-    
+
     private function notAuthorized($todo)
     {
-      if(Auth::user()->id !== $todo->user_id)
-      {
-        return $this->error('','dont have access to other posts');
-      }
+        if (Auth::user()->id !== $todo->user_id) {
+            return $this->error('', 'dont have access to other posts');
+        }
     }
 }

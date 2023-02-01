@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\TodoController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,12 +16,10 @@ use App\Http\Controllers\Api\TodoController;
 |
 */
 
+Route::post('/register', [RegisterController::class, 'index']);
+Route::post('/login', [LoginController::class, 'index'])->name('login');
 
-Route::post('/register',[RegisterController::class,'index']);
-Route::post('/login',[LoginController::class,'index'])->name('login');
-
-
-Route::group(['middleware' => ['auth:sanctum']],function (){
-  Route::resource('/todo', TodoController::class);
-  Route::post('/logout',[LoginController::class,'logout']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::resource('/todo', TodoController::class);
+    Route::post('/logout', [LoginController::class, 'logout']);
 });

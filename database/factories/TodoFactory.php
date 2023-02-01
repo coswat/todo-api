@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Todo>
  */
@@ -16,10 +17,10 @@ class TodoFactory extends Factory
      */
     public function definition()
     {
-                return [
+        return [
             'user_id' => User::all()->random()->id,
             'title' => $this->faker->unique()->sentence(),
-            'description' => $this->faker->text()
+            'description' => $this->faker->text(),
         ];
     }
 }
